@@ -72,9 +72,9 @@ def process_folders(input_root, output_root, transform):
                 adv_images = TGR_attack(image_tensor, real_target)
 
                 # Convert back to PIL Image for saving
-
-                adv_images = adv_images.squeeze(0)
-                image_pil = transforms.ToPILImage()((adv_images.detach().cpu().numpy() * 255).astype(np.uint8))
+                adv_images = adv_images.detach()
+                adv_images = adv_images.cpu().squeeze(0)
+                image_pil = transforms.ToPILImage()(adv_images)
                 image_pil.save(output_image_path)
 
                 print(f"Processed: {input_image_path} -> {output_image_path}")
